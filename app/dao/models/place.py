@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from marshmallow import Schema, fields
 from app.database import db
 
@@ -15,7 +13,6 @@ class Place(db.Model):
     city = db.Column(db.String(50))
     features_on = db.Column(db.String(100))  # что есть
     features_off = db.Column(db.String(100))  # чего нет
-    # date_create = db.Column(db.DateTime, default=datetime.utcnow)
 
 
 class PlaceSchema(Schema):
@@ -28,4 +25,3 @@ class PlaceSchema(Schema):
     city = fields.Str()
     features_on = fields.Str()
     features_off = fields.Str()
-    # date_create = fields.Str()

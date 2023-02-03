@@ -32,7 +32,7 @@
   "host_location": "Bulevardi 16, 137A"}, {"title": "Appartment on Kastanienallee", "pk": 6,
                                            "description": "This moderately-sized house has a rustic look to it and is in average condition.  The interior is done in colors that remind you of a coral reef.  The yard is large and looks very formal.",
                                            "picture_url": "https://images.unsplash.com/photo-1536376072261-38c75010e6c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2071&q=80",
-                                           "price": 800, "country": "Brussels", "city": "Belgium",
+                                           "price": 800, "country": "Belgium", "city": "Brussels",
                                            "features_on": "Terrace, Fitness, Desk, Parking, WiFi",
                                            "features_off": "AC, Netflix, an iron, fireplace, bike",
                                            "host_name": "Genevia", "host_phone": "568-904-2568",

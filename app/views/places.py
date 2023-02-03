@@ -8,13 +8,12 @@ from app.dao.models.place import PlaceSchema, Place
 place_ns = Namespace('places')
 
 place_schema = PlaceSchema()
-places_schema = PlaceSchema(many=True)
 
 
 @place_ns.route('/')
 class PlacesView(Resource):
     def get(self):
-        return places_schema.dump(place_services.get_all()), 200
+        return place_schema.dump(place_services.get_all(), many=True), 200
 
     def post(self):
         req_json = request.json
@@ -51,14 +50,3 @@ class PlaceView(Resource):
 
         return "Place delete", 204
 
-
-# # фильтрация по городу в разработке
-# @place_ns.route('/<city>')
-# class PlaceView(Resource):
-#     def get(self, city: str):
-#         try:
-#             places = db.session.query(Place).filter(Place.city.lower() == city.lower()).all()
-#             # places = [place for place in place_services.get_all() if place['city'].lower() == city.lower()]
-#             return places_schema.dump(places), 200
-#         except Exception:
-#             return "", 404
