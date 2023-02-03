@@ -13,7 +13,24 @@ place_schema = PlaceSchema()
 @place_ns.route('/')
 class PlacesView(Resource):
     def get(self):
-        return place_schema.dump(place_services.get_all(), many=True), 200
+        if request.args:
+            city = request.args.get("city")
+            minimum = request.args.get("from")
+            maximum = request.args.get("to")
+            places = []
+            if city:
+                result = db.session.query(Place).filter_by(city=city).all()
+                places.extend(place_schema.dump(result, many=True))
+            else:
+                places = place_schema.dump(place_services.get_all(), many=True)
+            if minimum:
+                places = [place for place in places if int(place["price"]) >= int(minimum)]
+            if maximum:
+                places = [place for place in places if int(place["price"]) <= int(maximum)]
+        else:
+            return place_schema.dump(place_services.get_all(), many=True)
+
+        return places, 200
 
     def post(self):
         req_json = request.json
@@ -49,4 +66,3 @@ class PlaceView(Resource):
         place_services.delete(pk)
 
         return "Place delete", 204
-

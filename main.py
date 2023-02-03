@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restx import Api
+from flask_cors import CORS
 
 from app.dao.models.place import Place
 from app.views.places import place_ns
@@ -11,6 +12,7 @@ from utils import load_data
 
 def create_app(config: Config) -> Flask:
     application = Flask(__name__)
+    CORS(application)
     application.config.from_object(config)
     application.app_context().push()
 
@@ -21,10 +23,10 @@ def configure_app(application: Flask):
     db.init_app(application)
     api = Api(app)
     api.add_namespace(place_ns)
+
+    # заполняем базу данных(таблицу Place) данными
     db.drop_all()
     db.create_all()
-
-    # заполняем базу данных - таблицу Place данными
     places = load_data(PLACES_FILE)
     for place in places:
         place = Place(
