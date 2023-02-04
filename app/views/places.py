@@ -1,6 +1,5 @@
 from flask import request
 from flask_restx import Resource, Namespace
-import git
 
 from app.container import place_services
 from app.database import db

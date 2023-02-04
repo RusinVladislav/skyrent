@@ -13,6 +13,9 @@ class Place(db.Model):
     city = db.Column(db.String(50))
     features_on = db.Column(db.String(100))  # что есть
     features_off = db.Column(db.String(100))  # чего нет
+    host_name = db.Column(db.String(100))
+    host_phone = db.Column(db.String(15))
+    host_location = db.Column(db.String(100))
 
 
 class PlaceSchema(Schema):
@@ -25,3 +28,6 @@ class PlaceSchema(Schema):
     city = fields.Str()
     features_on = fields.Str()
     features_off = fields.Str()
+    host_name = fields.Str()
+    host_phone = fields.Str()
+    host_location = fields.Str()

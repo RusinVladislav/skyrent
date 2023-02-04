@@ -39,6 +39,9 @@ def configure_app(application: Flask):
             city=place['city'],
             features_on=place['features_on'],
             features_off=place['features_off'],
+            host_name=place['host_name'],
+            host_phone=place['host_phone'],
+            host_location=place['host_location'],
         )
         db.session.add(place)
         db.session.commit()

@@ -27,6 +27,9 @@ class PlaceServices:
         place.city = data.get('city')
         place.features_on = data.get('features_on')
         place.features_off = data.get('features_off')
+        place.host_name = data.get('host_name')
+        place.host_phone = data.get('host_phone')
+        place.host_location = data.get('host_location')
 
         self.dao.update(place)
 
@@ -50,6 +53,12 @@ class PlaceServices:
             place.features_on = data.get('features_on')
         if "features_off" in data:
             place.features_off = data.get('features_off')
+        if "host_name" in data:
+            place.host_name = data.get('host_name')
+        if "host_phone" in data:
+            place.host_phone = data.get('host_phone')
+        if "host_location" in data:
+            place.host_location = data.get('host_location')
 
         self.dao.update(place)
 
