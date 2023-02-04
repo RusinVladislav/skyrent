@@ -1,5 +1,6 @@
 from flask import request
 from flask_restx import Resource, Namespace
+import git
 
 from app.container import place_services
 from app.database import db
@@ -66,3 +67,14 @@ class PlaceView(Resource):
     #     place_services.delete(pk)
     #
     #     return "Place delete", 204
+
+
+@place_ns.route('/update_server', methods=['POST'])
+def webhook():
+    if request.method == 'POST':
+        repo = git.Repo('path/to/git_repo')
+        origin = repo.remotes.origin
+        origin.pull()
+        return 'UpdatePythonAnywhere successfully', 200
+    else:
+        return 'Wrong event type', 400

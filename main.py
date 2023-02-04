@@ -1,7 +1,6 @@
-from flask import Flask, request
+from flask import Flask
 from flask_restx import Api
 from flask_cors import CORS
-import git
 
 from app.dao.models.place import Place
 from app.views.places import place_ns
@@ -43,16 +42,6 @@ def configure_app(application: Flask):
         )
         db.session.add(place)
         db.session.commit()
-
-        @app.route('/update_server', methods=['POST'])
-        def webhook():
-            if request.method == 'POST':
-                repo = git.Repo('path/to/git_repo')
-                origin = repo.remotes.origin
-                origin.pull()
-                return 'UpdatePythonAnywhere successfully', 200
-            else:
-                return 'Wrong event type', 400
 
 
 # Конструкция для загрузки приложения на сервер
