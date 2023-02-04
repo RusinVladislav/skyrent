@@ -49,32 +49,33 @@ class PlaceView(Resource):
         except Exception:
             return "", 404
 
-    # def put(self, pk: int):
-    #     req_json = request.json
-    #     req_json['pk'] = pk
-    #     place_services.update(req_json)
-    #
-    #     return "Place put", 204
-    #
-    # def patch(self, pk: int):
-    #     req_json = request.json
-    #     req_json['pk'] = pk
-    #     place_services.update_partial(req_json)
-    #
-    #     return "Place patch", 204
-    #
-    # def delete(self, pk: int):
-    #     place_services.delete(pk)
-    #
-    #     return "Place delete", 204
+    def put(self, pk: int):
+        req_json = request.json
+        req_json['pk'] = pk
+        place_services.update(req_json)
 
+        return "Place put", 204
 
-@place_ns.route('/update_server', methods=['POST'])
-def webhook():
-    if request.method == 'POST':
-        repo = git.Repo('https://github.com/RusinVladislav/skyrent')
-        origin = repo.remotes.origin
-        origin.pull()
-        return 'UpdatePythonAnywhere successfully', 200
-    else:
-        return 'Wrong event type', 400
+    def patch(self, pk: int):
+        req_json = request.json
+        req_json['pk'] = pk
+        place_services.update_partial(req_json)
+
+        return "Place patch", 204
+
+    def delete(self, pk: int):
+        place_services.delete(pk)
+
+        return "Place delete", 204
+
+# попытка реализовать автоматическую перезаливку приложения на сервер после комита
+# https://habr.com/en/post/457348/
+# @place_ns.route('/update_server', methods=['POST'])
+# def webhook():
+#     if request.method == 'POST':
+#         repo = git.Repo('https://github.com/RusinVladislav/skyrent')
+#         origin = repo.remotes.origin
+#         origin.pull()
+#         return 'UpdatePythonAnywhere successfully', 200
+#     else:
+#         return 'Wrong event type', 400
