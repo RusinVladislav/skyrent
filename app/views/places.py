@@ -29,18 +29,17 @@ class PlacesView(Resource):
                     places = [place for place in places if int(place["price"]) <= int(maximum)]
             else:
                 return place_schema.dump(place_services.get_all(), many=True)
-            if places:
-                return places, 200
-            else:
-                return [{"message": "404 not found"}], 404
+
+            return places, 200
+
         except Exception:
             return [{"message": "404 not found"}], 404
 
     def post(self):
         req_json = request.json
-        place_services.create(req_json)
+        new = place_services.create(req_json)
 
-        return "Place add", 201
+        return [{"message": "Place add", "pk": new.pk}], 201
 
 
 @place_ns.route('/<int:pk>')
@@ -57,14 +56,14 @@ class PlaceView(Resource):
         req_json['pk'] = pk
         place_services.update(req_json)
 
-        return "Place put", 204
+        return [{"message": "Place put", "pk": pk}], 201
 
     def patch(self, pk: int):
         req_json = request.json
         req_json['pk'] = pk
         place_services.update_partial(req_json)
 
-        return "Place patch", 204
+        return [{"message": "Place patch", "pk": pk}], 201
 
     def delete(self, pk: int):
         place_services.delete(pk)
