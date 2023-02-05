@@ -6,31 +6,35 @@ from app.database import db
 from app.dao.models.place import PlaceSchema, Place
 
 place_ns = Namespace('places')
-
 place_schema = PlaceSchema()
 
 
 @place_ns.route('/')
 class PlacesView(Resource):
     def get(self):
-        if request.args:
-            city = request.args.get("city")
-            minimum = request.args.get("from")
-            maximum = request.args.get("to")
-            places = []
-            if city:
-                result = db.session.query(Place).filter_by(city=city).all()
-                places.extend(place_schema.dump(result, many=True))
+        try:
+            if request.args:
+                city = request.args.get("city")
+                minimum = request.args.get("from")
+                maximum = request.args.get("to")
+                places = []
+                if city:
+                    result = db.session.query(Place).filter_by(city=city).all()
+                    places.extend(place_schema.dump(result, many=True))
+                else:
+                    places = place_schema.dump(place_services.get_all(), many=True)
+                if minimum:
+                    places = [place for place in places if int(place["price"]) >= int(minimum)]
+                if maximum:
+                    places = [place for place in places if int(place["price"]) <= int(maximum)]
             else:
-                places = place_schema.dump(place_services.get_all(), many=True)
-            if minimum:
-                places = [place for place in places if int(place["price"]) >= int(minimum)]
-            if maximum:
-                places = [place for place in places if int(place["price"]) <= int(maximum)]
-        else:
-            return place_schema.dump(place_services.get_all(), many=True)
-
-        return places, 200
+                return place_schema.dump(place_services.get_all(), many=True)
+            if places:
+                return places, 200
+            else:
+                return [{"message": "404 not found"}], 404
+        except Exception:
+            return [{"message": "404 not found"}], 404
 
     def post(self):
         req_json = request.json
@@ -44,9 +48,9 @@ class PlaceView(Resource):
     def get(self, pk: int):
         try:
             place = place_services.get_one(pk)
-            return place_schema.dump(place), 200
+            return [place_schema.dump(place)], 200
         except Exception:
-            return "", 404
+            return [{"message": "404 not found"}], 404
 
     def put(self, pk: int):
         req_json = request.json

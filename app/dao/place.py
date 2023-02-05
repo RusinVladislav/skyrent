@@ -9,19 +9,19 @@ class PlaceDAO:
         return self.session.query(Place).all()
 
     def get_one(self, pk):
-        return self.session.query(Place).get(pk)
+        return self.session.query(Place).get_or_404(pk)
 
     def create(self, data):
         place = Place(**data)
 
-        self.session.add(Place)
+        self.session.add(place)
         self.session.commit()
 
         return place
 
     def update(self, place):
 
-        self.session.add(Place)
+        self.session.add(place)
         self.session.commit()
 
         return place
@@ -29,5 +29,5 @@ class PlaceDAO:
     def delete(self, pk):
         place = self.get_one(pk)
 
-        self.session.add(place)
+        self.session.delete(place)
         self.session.commit()
