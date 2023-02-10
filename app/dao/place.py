@@ -5,11 +5,11 @@ class PlaceDAO:
     def __init__(self, session):
         self.session = session
 
+    def get_one(self, pk):
+        return self.session.query(Place).get(pk)
+
     def get_all(self):
         return self.session.query(Place).all()
-
-    def get_one(self, pk):
-        return self.session.query(Place).get_or_404(pk)
 
     def create(self, data):
         place = Place(**data)
@@ -20,7 +20,6 @@ class PlaceDAO:
         return place
 
     def update(self, place):
-
         self.session.add(place)
         self.session.commit()
 
