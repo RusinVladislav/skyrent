@@ -50,7 +50,7 @@ def configure_app(application: Flask):
 # Конструкция для загрузки приложения на сервер
 app = create_app(Config())
 configure_app(app)
-
+app.run()
 
 # Конструкция для разработки приложение локально
 # if __name__ == '__main__':
